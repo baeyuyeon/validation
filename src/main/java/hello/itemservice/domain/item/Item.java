@@ -1,13 +1,27 @@
 package hello.itemservice.domain.item;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import lombok.Data;
+import org.hibernate.validator.constraints.Range;
+import org.hibernate.validator.constraints.ScriptAssert;
 
 @Data
 public class Item {
 
+    @NotNull(groups = UpdateCheck.class)//수정 요구사항.
     private Long id;
+
+    @NotBlank(groups = {UpdateCheck.class,SaveCheck.class})
     private String itemName;
+
+    @NotNull(groups = {UpdateCheck.class,SaveCheck.class})
+    @Range(min=1000, max=1000000, groups = {UpdateCheck.class,SaveCheck.class})
     private Integer price;
+
+    @NotNull(groups = {UpdateCheck.class,SaveCheck.class})
+    @Max(value=9999, groups = SaveCheck.class) //수정요구사항 추가
     private Integer quantity;
 
     public Item() {
